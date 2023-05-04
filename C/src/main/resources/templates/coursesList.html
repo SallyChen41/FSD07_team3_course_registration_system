@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>COURSES LIST</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
+</head>
+<body>
+<div th:if="${message}" class="alert alert-success">
+    <p th:text="${message}"></p>
+</div>
+
+<div class="container">
+    <div class="row">
+        <h2> COURSES LIST </h2>
+    </div>
+    <br/>
+    <a th:href="@{#}" class="btn btn-primary">ADD</a>
+    <br><br>
+    <table class="table table-striped table-bordered table-hover" id="courseTable">
+        <thead>
+        <tr>
+            <th>Course ID</th>
+            <th>Semester ID</th>
+            <th>Title</th>
+            <th>Instructor</th>
+            <th>Course Description</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Student Limit</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="course: ${courses}">
+            <td th:text="${courses.id}"></td>
+            <td th:text="${courses.semesterId}"></td>
+            <td th:text="${courses.title}"></td>
+            <td th:text="${courses.instructor}"></td>
+            <td th:text="${courses.courseDescription}"></td>
+            <td th:text="${courses.startDate}"></td>
+            <td th:text="${courses.endDate}"></td>
+            <td th:text="${courses.startTime}"></td>
+            <td th:text="${courses.endTime}"></td>
+            <td th:text="${courses.studentLimit}"></td>
+            <td>
+                <a th:href="@{#}" class="fas fa-edit"></a>
+                <a th:href="@{#}" class="fa-solid fa-trash"></a>
+            </td>
+<!--            <td>-->
+<!--                <a th:href="@{/courses/edit(id=${courses.id})}" class="fas fa-edit"></a>-->
+<!--                <a th:href="@{/courses/delete(id=${courses.id})}" class="fa-solid fa-trash"></a>-->
+<!--            </td>-->
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $("#courseTable").DataTable({
+            'aoColumnDefs': [{
+                'bSortable': false,
+                'aTargets': [-1]
+            }]
+        });
+    })
+</script>
+</body>
+</html>
