@@ -1,0 +1,9 @@
+body {
+      background-image: url('/images/bg.jpg.webp');
+      background-size: cover;
+      background-attachment: fixed;
+    }
+
+h3 {
+    font-family: Arial, sans-serif;
+}
