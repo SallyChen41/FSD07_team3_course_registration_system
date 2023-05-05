@@ -18,6 +18,7 @@
 - Course add/ update/ delete
 
 2. To do until the next Scrum:
+- Input all courses data into rds db
 - Users_student/professor: course listing
 - Users_student/professor: course add/delete
 
