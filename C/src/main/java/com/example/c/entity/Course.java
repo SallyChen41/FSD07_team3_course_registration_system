@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
@@ -22,7 +23,7 @@ public class Course {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "semester_id")
+    @JoinColumn(name = "semester", nullable = false)
     private Semester semester;
 
     @NotEmpty(message="Title cannot be empty.")
@@ -30,30 +31,30 @@ public class Course {
     private String title;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "instructor_id", nullable = false)
+    @JoinColumn(name = "instructor", nullable = false)
     private User instructor;
 
     @NotEmpty(message="Please provide course description.")
-    @Size(min=10, max=200, message="Description has to be 10-200 characters long.")
+    @Size(min=10, max=1000, message="Description has to be 10-1000 characters long.")
     private String courseDescription;
 
     private String dayOfWeek;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @NotEmpty(message="Please choose the Start Date.")
+    @NotNull(message="Please indicate Start Date.")
     private LocalDate startDate;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @NotEmpty(message="Please choose the End Date.")
+    @NotNull(message="Please indicate End Date.")
     private LocalDate endDate;
 
-    @NotEmpty(message="Please choose the Start Time.")
-    private int startTime;
+    @NotEmpty(message="Please indicate Start Time.")
+    private String startTime;
 
-    @NotEmpty(message="Please choose the End Time.")
-    private int endTime;
+    @NotEmpty(message="Please indicate End Time.")
+    private String endTime;
 
-    @NotEmpty(message="Please provide student limits for this course.")
+    @NotNull(message="Please provide student limits for this course.")
     private int studentLimit;
 
 }

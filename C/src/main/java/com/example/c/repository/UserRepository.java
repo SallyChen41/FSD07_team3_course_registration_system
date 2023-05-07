@@ -1,12 +1,14 @@
 package com.example.c.repository;
 
-import com.example.c.entity.Semester;
+import com.example.c.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface SemesterRepository  extends JpaRepository<Semester, Long> {
-    List<Semester> findAll();
+public interface UserRepository extends JpaRepository<User, Long> {
+
+    List<User> findByRole(User.Role role);
+
 }

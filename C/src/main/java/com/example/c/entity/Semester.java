@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "semesters")
@@ -18,13 +19,20 @@ public class Semester {
     private Long id;
 
     @Column(nullable = false)
-    private int year;
+    private String year;
 
-    private Quarter quarter;
-    private enum Quarter {
-        Winter,
-        Spring,
-        Summer,
-        Fall
-    };
+//    public enum Quarter {
+//        Winter,
+//        Spring,
+//        Summer,
+//        Fall
+//    };
+//
+//    @Column(nullable = false)
+//    @Enumerated(EnumType.STRING)
+//    private Quarter quarter;
+
+    @Column(nullable = false)
+    private String quarter;
+
 }
