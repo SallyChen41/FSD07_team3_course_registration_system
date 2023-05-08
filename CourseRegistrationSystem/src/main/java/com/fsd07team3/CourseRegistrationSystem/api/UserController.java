@@ -1,4 +1,4 @@
-package com.fsd07.S.api;
+package com.fsd07team3.CourseRegistration.api;
 
 import ch.qos.logback.classic.Logger;
 import com.fsd07.S.entity.User;
