@@ -1,8 +1,8 @@
-package com.fsd07.S.service;
+package com.fsd07team3.CourseRegistration.service;
 
-import com.fsd07.S.entity.CustomUserDetails;
-import com.fsd07.S.entity.User;
-import com.fsd07.S.repository.UserRepository;
+import com.fsd07team3.CourseRegistration.entity.CustomUserDetails;
+import com.fsd07team3.CourseRegistration.entity.User;
+import com.fsd07team3.CourseRegistration.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
