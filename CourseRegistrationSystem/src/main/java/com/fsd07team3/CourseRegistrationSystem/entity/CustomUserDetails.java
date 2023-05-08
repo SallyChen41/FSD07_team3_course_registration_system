@@ -1,4 +1,4 @@
-package com.fsd07.S.entity;
+package com.fsd07team3.CourseRegistration.entity;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
