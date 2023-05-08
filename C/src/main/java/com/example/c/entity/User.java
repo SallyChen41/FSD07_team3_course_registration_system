@@ -26,16 +26,15 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public enum Role {
-        ADMIN,
-        STUDENT,
-        INSTRUCTOR
-    }
+//    public enum Role {
+//        ADMIN,
+//        STUDENT,
+//        INSTRUCTOR
+//    }
 
-    @Column(nullable = false)
+    @Column(nullable = false,columnDefinition = "VARCHAR(255) default 'STUDENT'")
     @NotNull(message = "Role cannot be null")
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    private String role;
 
     @Column(nullable = false, unique = true, length = 25)
     @NotEmpty(message="Username is required")

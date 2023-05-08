@@ -10,6 +10,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "courses")
@@ -56,5 +57,8 @@ public class Course {
 
     @NotNull(message="Please provide student limits for this course.")
     private int studentLimit;
+
+    @OneToMany(mappedBy = "course")
+    private List<StudentRegistration> registrations;
 
 }

@@ -1,12 +1,15 @@
 package com.fsd07team3.CourseRegistrationSystem.api;
 
+import com.fsd07team3.CourseRegistrationSystem.entity.StudentRegistration;
 import com.fsd07team3.CourseRegistrationSystem.entity.User;
 import com.fsd07team3.CourseRegistrationSystem.entity.Course;
 import com.fsd07team3.CourseRegistrationSystem.entity.Semester;
+import com.fsd07team3.CourseRegistrationSystem.repository.StudentRegistrationRepository;
 import com.fsd07team3.CourseRegistrationSystem.repository.UserRepository;
 import com.fsd07team3.CourseRegistrationSystem.repository.CourseRepository;
 import com.fsd07team3.CourseRegistrationSystem.repository.SemesterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -26,6 +30,8 @@ public class CourseController {
     private UserRepository userRepo;
     @Autowired
     private SemesterRepository semesterRepo;
+    @Autowired
+    private StudentRegistrationRepository studentRegistrationRepo;
 
 
     /******************* Admin *******************/
@@ -96,7 +102,6 @@ public class CourseController {
         try {
             Course course = courseRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Course not found with ID " + id));
             courseRepo.deleteById(id);
-            redirectAttributes.addFlashAttribute("message", "Course '" + course.getTitle() + "' deleted.");
         } catch (EntityNotFoundException ex) {
             redirectAttributes.addFlashAttribute("error", ex.getMessage());
         }
@@ -108,43 +113,58 @@ public class CourseController {
     /******************* Instructor *******************/
 
     // Show list of courses
-    @GetMapping("/instructor/{id}") // id = user.id
-    public String showInstructorCourseList(@PathVariable("id") Long id, Model model) {
-//        List<User> instructors = userRepo.findByRole(User.Role.INSTRUCTOR);
-        List<User> instructors = userRepo.findByRole("INSTRUCTOR");
-        model.addAttribute("instructors", instructors);
-        User instructor = userRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
-        List<Course> courses = courseRepo.findByInstructor(instructor);
+    @GetMapping("/instructor/courses")
+    public String showInstructorCourse(Model model, Authentication authentication, RedirectAttributes redirectAttributes) {
+        String username = authentication.getName();
+        User user = userRepo.findByUsername(username);
+        List<Course> courses = courseRepo.findByInstructor(user);
+        model.addAttribute("instructors", user);
         model.addAttribute("courses", courses);
+        redirectAttributes.addFlashAttribute("message", "You're logged in! Professor " + user.getFirstName());
         return "instructor_list_courses";
     }
 
 
-    // ** a BETTER way using authentication??
-//    @GetMapping("/instructor/courses")
-//    public String showCourseList(Model model, Authentication authentication) {
-//        String username = authentication.getName(); // Retrieve the currently authenticated user's username
-//        User user = userRepo.findByUsername(username); // Retrieve the User object for the currently authenticated user
-//        List<User> instructors = userRepo.findByRole(User.Role.INSTRUCTOR);
-//        model.addAttribute("instructors", instructors);
-//        model.addAttribute("message", "Welcome back " + user.getFirstName()); // Concatenate the user's first name with the welcome message
-//        return "instructorListOfCourses";
-//    }
-
-
-
     /******************* Student *******************/
 
-    // Show list of courses
-    @GetMapping("/student/{id}") // id = user.id
-    public String showStudentCourseList(@PathVariable("id") Long id, Model model) {
-//        List<User> students = userRepo.findByRole(User.Role.STUDENT);
-        List<User> students = userRepo.findByRole("STUDENT");
-        model.addAttribute("students", students);
-        User student = userRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
-        List<Course> courses = courseRepo.findByInstructor(student);
+    // Show list of registered courses
+    @GetMapping("/student/courses")
+    public String showStudentCourse(Model model, Authentication authentication, RedirectAttributes redirectAttributes) {
+        String username = authentication.getName();
+        User user = userRepo.findByUsername(username);
+        List<StudentRegistration> registrations = studentRegistrationRepo.findByStudentId(user.getId());
+        List<Course> courses = new ArrayList<>();
+        for (StudentRegistration registration : registrations) {
+            courses.add(registration.getCourse());
+        }
         model.addAttribute("courses", courses);
-        return "studentListOfCourses";
+        redirectAttributes.addFlashAttribute("message", user.getFirstName() + ", you're logged in! ");
+        return "student_list_courses";
     }
+
+    // Register courses (ADD)
+//    @GetMapping("/student/registercourses")
+//    public String showAvailableCourses(Model model, Authentication authentication) {
+//        String username = authentication.getName();
+//        User user = userRepo.findByUsername(username);
+//        List<Course> selectedCourses = courseRepo.findByStudents(user);
+//        List<Course> courses = courseRepo.findByStudentLimitGreaterThan(0);
+//        courses.removeAll(selectedCourses);
+//        model.addAttribute("courses", courses);
+//        return "student_registerCourses";
+//    }
+//
+//    @PostMapping("/student/registercourses")
+//    public String registerCourse(Authentication authentication, @RequestParam("courseId") Long courseId) {
+//        String username = authentication.getName();
+//        User student = userRepo.findByUsername(username);
+//        Course course = courseRepo.findById(courseId).orElseThrow(() -> new IllegalArgumentException("Invalid course ID"));
+//        StudentRegistration registration = new StudentRegistration();
+//        registration.setCourse(course);
+//        registration.setStudent(student);
+//        registration.setStatus("Registered");
+//        studentRegistrationRepo.save(registration);
+//        return "redirect:/student/courses";
+//    }
 
 }

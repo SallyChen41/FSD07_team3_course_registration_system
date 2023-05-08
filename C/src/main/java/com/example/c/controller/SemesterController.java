@@ -1,11 +1,11 @@
-package com.fsd07team3.CourseRegistrationSystem.api;
+package com.example.c.controller;
 
-import com.fsd07team3.CourseRegistrationSystem.entity.User;
-import com.fsd07team3.CourseRegistrationSystem.entity.Course;
-import com.fsd07team3.CourseRegistrationSystem.entity.Semester;
-import com.fsd07team3.CourseRegistrationSystem.repository.UserRepository;
-import com.fsd07team3.CourseRegistrationSystem.repository.CourseRepository;
-import com.fsd07team3.CourseRegistrationSystem.repository.SemesterRepository;
+import com.example.c.entity.Course;
+import com.example.c.entity.Semester;
+import com.example.c.entity.User;
+import com.example.c.repository.CourseRepository;
+import com.example.c.repository.SemesterRepository;
+import com.example.c.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,7 +35,7 @@ public class SemesterController {
         model.addAttribute("semesters", semesters);
         List<Course> courses = courseRepo.findAll();
         model.addAttribute("courses", courses);
-        return "admin_list_semesters";
+        return "semesterList";
     }
 
     @GetMapping("/admin/semesters/{id}")
@@ -44,7 +44,7 @@ public class SemesterController {
         List<Course> courses = courseRepo.findBySemesterId(id);
         model.addAttribute("semesters", semester);
         model.addAttribute("courses", courses);
-        return "admin_list_semesterById";
+        return "semesterByIdList";
     }
 
     // ADD semester
@@ -57,13 +57,13 @@ public class SemesterController {
 //        List<User> instructors = userRepo.findByRole(User.Role.INSTRUCTOR);
         List<User> instructors = userRepo.findByRole("INSTRUCTOR");
         model.addAttribute("instructors", instructors);
-        return "admin_semesterAdd_form";
+        return "addSemester";
     }
     @PostMapping("/admin/semesters/add")
     public String addSemester(@ModelAttribute("semester") @Valid Semester semester, BindingResult result,
-                              RedirectAttributes redirectAttributes) {
+                            RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            return "admin_semesterAdd_form";
+            return "addSemester";
         }
         semesterRepo.save(semester);
         redirectAttributes.addFlashAttribute("message", "Semester added.");
@@ -72,10 +72,11 @@ public class SemesterController {
 
     // DELETE semester
     @PostMapping("/admin/semesters/delete/{id}")
-    public String deleteSemester(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+    public String deleteSemesters(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         try {
             Semester semester = semesterRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Semester not found with ID " + id));
             semesterRepo.deleteById(id);
+            redirectAttributes.addFlashAttribute("message", "Semester deleted.");
         } catch (EntityNotFoundException ex) {
             redirectAttributes.addFlashAttribute("error", ex.getMessage());
         }

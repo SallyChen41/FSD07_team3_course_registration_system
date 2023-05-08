@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>ADMIN | SEMESTERS</title>
+    <title> ADMIN | SEMESTERS </title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
           rel="stylesheet"
@@ -14,48 +14,29 @@
     <p th:text="${message}"></p>
 </div>
 
-<div class="container">
+<div  class="container">
     <div class="row">
-        <h2> ALL COURSES </h2>
-        <div class="col">
-            <div class="dataTables_paginate paging_simple_numbers"></div>
-        </div>
+        <h2> ALL SEMESTERS </h2>
     </div>
     <br/>
-    <a th:href="@{/admin/courses/add}" class="btn btn-primary">ADD</a>
+    <a th:href="@{/admin/semesters/add}" class="btn btn-primary">ADD</a>
     <br><br>
-    <table class="table table-striped table-bordered table-hover" id="courseTable">
+    <table class="table table-striped table-bordered table-hover" id="semesterTable">
         <thead>
         <tr>
-            <th>Course ID</th>
-            <th>Semester</th>
-            <th>Title</th>
-            <th>Instructor</th>
-            <th>Course Description</th>
-            <th>Day of Week</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Start Time</th>
-            <th>End Time</th>
-            <th>Student Limit</th>
+            <th>ID</th>
+            <th>Year</th>
+            <th>Quarter</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="course: ${courses}">
-            <td th:text="${course.id}"></td>
-            <td th:text="${course.semester.quarter} + ' ' + ${course.semester.year}"></td>
-            <td th:text="${course.title}"></td>
-            <td th:text="${course.instructor.firstName} + ' ' + ${course.instructor.lastName}"></td>
-            <td th:text="${#strings.length(course.courseDescription) gt 120} ? ${#strings.substring(course.courseDescription, 0, 120) + '...'} : ${course.courseDescription}"></td>
-            <td th:text="${course.dayOfWeek}"></td>
-            <td th:text="${course.startDate}"></td>
-            <td th:text="${course.endDate}"></td>
-            <td th:text="${course.startTime}"></td>
-            <td th:text="${course.endTime}"></td>
-            <td th:text="${course.studentLimit}"></td>
+        <tr th:each="semester: ${semesters}">
+            <td th:text="${semester.id}"></td>
+            <td th:text="${semester.year}"></td>
+            <td th:text="${semester.quarter}"></td>
             <td>
-                <a th:href="@{/admin/courses/edit(id=${course.id})}" class="edit"><i class="fa fa-edit fa-fw"></i></a>&nbsp;
-                <a th:href="@{/admin/courses/delete/{id}(id=${course.id})}" th:data-id="${course.id}" class="delete" data-target="#confirm-delete-modal"><i class="fa fa-trash fa-fw"></i></a>
+                <a th:href="@{/admin/semesters/{id}(id=${semester.id})}" class="edit"><i class="fa fa-search-plus fa-fw"></i></a>&nbsp;
+                <a th:href="@{/admin/semesters/delete/{id}(id=${semester.id})}" th:data-id="${semester.id}" class="delete" data-target="#confirm-delete-modal"><i class="fa fa-trash fa-fw"></i></a>
             </td>
         </tr>
         </tbody>
@@ -72,14 +53,14 @@
                 </div>
             </div>
         </div>
-    </table>
+</table>
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.js"></script>
 <script>
     $(document).ready(function() {
-        $("#courseTable").DataTable({
+        $("#semesterTable").DataTable({
             'aoColumnDefs': [{
                 'bSortable': false,
                 'aTargets': [-1]
@@ -101,7 +82,7 @@
                 $(modalId).modal("hide");
                 $.ajax({
                     type: "POST",
-                    url: "/admin/courses/delete/" + id,
+                    url: "/admin/semesters/delete/" + id,
                     data: {id: id},
                     success: function () {
                         location.reload();

@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>STUDENT | COURSES</title>
+    <title> ADMIN | SEMESTERS </title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
           rel="stylesheet"
@@ -16,12 +16,13 @@
 
 <div  class="container">
     <div class="row">
-        <h2 th:text="${students.?[id == #vars.id][0].firstName + ' ' + students.?[id == #vars.id][0].lastName}"></h2>
+        <h2 th:text="${semesters.quarter + ' ' + semesters.year}"></h2>
     </div>
-    <table class="table table-striped table-bordered table-hover" id="courseTable">
+    <br/>
+    <table class="table table-striped table-bordered table-hover" id="semesterTable">
         <thead>
         <tr>
-            <th>Semester</th>
+            <th>Course ID</th>
             <th>Title</th>
             <th>Instructor</th>
             <th>Course Description</th>
@@ -30,19 +31,21 @@
             <th>End Date</th>
             <th>Start Time</th>
             <th>End Time</th>
+            <th>Student Limit</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="course: ${courses}">
-            <td th:text="${course.semester.quarter} + ' ' + ${course.semester.year}"></td>
+            <td th:text="${course.id}"></td>
             <td th:text="${course.title}"></td>
             <td th:text="${course.instructor.firstName} + ' ' + ${course.instructor.lastName}"></td>
-            <td th:text="${#strings.length(course.courseDescription) gt 120} ? ${#strings.substring(course.courseDescription, 0, 120) + '...'} : ${course.courseDescription}"></td>
+            <td th:text="${#strings.length(course.courseDescription) gt 80} ? ${#strings.substring(course.courseDescription, 0, 80) + '...'} : ${course.courseDescription}"></td>
             <td th:text="${course.dayOfWeek}"></td>
             <td th:text="${course.startDate}"></td>
             <td th:text="${course.endDate}"></td>
             <td th:text="${course.startTime}"></td>
             <td th:text="${course.endTime}"></td>
+            <td th:text="${course.studentLimit}"></td>
         </tr>
         </tbody>
     </table>

@@ -44,7 +44,8 @@ public class CourseController {
         model.addAttribute("course", new Course());
         List<Semester> semesters = semesterRepo.findAll();
         model.addAttribute("semesters", semesters);
-        List<User> instructors = userRepo.findByRole(User.Role.INSTRUCTOR);
+//        List<User> instructors = userRepo.findByRole(User.Role.INSTRUCTOR);
+        List<User> instructors = userRepo.findByRole("INSTRUCTOR");
         model.addAttribute("instructors", instructors);
         return "addCourse";
     }
@@ -66,7 +67,8 @@ public class CourseController {
         model.addAttribute("course", course);
         List<Semester> semesters = semesterRepo.findAll();
         model.addAttribute("semesters", semesters);
-        List<User> instructors = userRepo.findByRole(User.Role.INSTRUCTOR);
+//        List<User> instructors = userRepo.findByRole(User.Role.INSTRUCTOR);
+        List<User> instructors = userRepo.findByRole("INSTRUCTOR");
         model.addAttribute("instructors", instructors);
         return "editCourse";
     }
@@ -108,7 +110,8 @@ public class CourseController {
     // Show list of courses
     @GetMapping("/instructor/{id}") // id = user.id
     public String showInstructorCourseList(@PathVariable("id") Long id, Model model) {
-        List<User> instructors = userRepo.findByRole(User.Role.INSTRUCTOR);
+//        List<User> instructors = userRepo.findByRole(User.Role.INSTRUCTOR);
+        List<User> instructors = userRepo.findByRole("INSTRUCTOR");
         model.addAttribute("instructors", instructors);
         User instructor = userRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
         List<Course> courses = courseRepo.findByInstructor(instructor);
@@ -135,7 +138,8 @@ public class CourseController {
     // Show list of courses
     @GetMapping("/student/{id}") // id = user.id
     public String showStudentCourseList(@PathVariable("id") Long id, Model model) {
-        List<User> students = userRepo.findByRole(User.Role.STUDENT);
+//        List<User> students = userRepo.findByRole(User.Role.STUDENT);
+        List<User> students = userRepo.findByRole("STUDENT");
         model.addAttribute("students", students);
         User student = userRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
         List<Course> courses = courseRepo.findByInstructor(student);
