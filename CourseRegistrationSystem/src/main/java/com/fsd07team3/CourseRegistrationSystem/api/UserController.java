@@ -1,9 +1,9 @@
-package com.fsd07team3.CourseRegistration.api;
+package com.fsd07team3.CourseRegistrationSystem.api;
 
 import ch.qos.logback.classic.Logger;
-import com.fsd07.S.entity.User;
-import com.fsd07.S.repository.UserRepository;
-import com.fsd07.S.service.CustomUserDetailsService;
+import com.fsd07team3.CourseRegistrationSystem.entity.User;
+import com.fsd07team3.CourseRegistrationSystem.repository.UserRepository;
+import com.fsd07team3.CourseRegistrationSystem.service.CustomUserDetailsService;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

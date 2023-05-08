@@ -1,4 +1,4 @@
-package com.fsd07team3.CourseRegistration.config;
+package com.fsd07team3.CourseRegistrationSystem.config;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;

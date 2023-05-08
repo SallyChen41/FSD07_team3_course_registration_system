@@ -1,6 +1,6 @@
-package com.fsd07team3.CourseRegistration.config;
+package com.fsd07team3.CourseRegistrationSystem.config;
 
-import com.fsd07.S.service.CustomUserDetailsService;
+import com.fsd07team3.CourseRegistrationSystem.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
