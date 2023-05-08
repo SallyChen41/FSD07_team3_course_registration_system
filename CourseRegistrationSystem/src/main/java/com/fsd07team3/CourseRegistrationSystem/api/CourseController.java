@@ -138,33 +138,33 @@ public class CourseController {
             courses.add(registration.getCourse());
         }
         model.addAttribute("courses", courses);
-        redirectAttributes.addFlashAttribute("message", user.getFirstName() + ", you're logged in! ");
+        redirectAttributes.addFlashAttribute("message", "You're logged in! ");
         return "student_list_courses";
     }
 
     // Register courses (ADD)
-//    @GetMapping("/student/registercourses")
-//    public String showAvailableCourses(Model model, Authentication authentication) {
-//        String username = authentication.getName();
-//        User user = userRepo.findByUsername(username);
-//        List<Course> selectedCourses = courseRepo.findByStudents(user);
-//        List<Course> courses = courseRepo.findByStudentLimitGreaterThan(0);
-//        courses.removeAll(selectedCourses);
-//        model.addAttribute("courses", courses);
-//        return "student_registerCourses";
-//    }
-//
-//    @PostMapping("/student/registercourses")
-//    public String registerCourse(Authentication authentication, @RequestParam("courseId") Long courseId) {
-//        String username = authentication.getName();
-//        User student = userRepo.findByUsername(username);
-//        Course course = courseRepo.findById(courseId).orElseThrow(() -> new IllegalArgumentException("Invalid course ID"));
-//        StudentRegistration registration = new StudentRegistration();
-//        registration.setCourse(course);
-//        registration.setStudent(student);
-//        registration.setStatus("Registered");
-//        studentRegistrationRepo.save(registration);
-//        return "redirect:/student/courses";
-//    }
+    @GetMapping("/student/registercourses")
+    public String showAvailableCourses(Model model, Authentication authentication) {
+        String username = authentication.getName();
+        User user = userRepo.findByUsername(username);
+        List<Course> availableCourses = courseRepo.findAvailableCoursesForStudent(user.getId());
+        model.addAttribute("courses", availableCourses);
+        List<Semester> semesters = semesterRepo.findAll();
+        model.addAttribute("semesters", semesters);
+        return "student_registerCourses";
+    }
+
+    @PostMapping("/student/registercourses")
+    public String registerCourse(@RequestParam("courseId") Long courseId, Model model, Authentication authentication) {
+        String username = authentication.getName();
+        User student = userRepo.findByUsername(username);
+        Course course = courseRepo.findById(courseId).orElseThrow(() -> new RuntimeException("Invalid course id: " + courseId));
+        StudentRegistration registration = new StudentRegistration();
+        registration.setStudent(student);
+        registration.setCourse(course);
+        registration.setStatus("Registered");
+        studentRegistrationRepo.save(registration);
+        return "redirect:/student/courses";
+    }
 
 }
