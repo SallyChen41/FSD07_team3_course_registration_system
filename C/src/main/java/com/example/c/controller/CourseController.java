@@ -107,7 +107,7 @@ public class CourseController {
 
     // Show list of courses
     @GetMapping("/instructor/{id}") // id = user.id
-    public String showCourseList(@PathVariable("id") Long id, Model model) {
+    public String showInstructorCourseList(@PathVariable("id") Long id, Model model) {
         List<User> instructors = userRepo.findByRole(User.Role.INSTRUCTOR);
         model.addAttribute("instructors", instructors);
         User instructor = userRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
@@ -117,8 +117,8 @@ public class CourseController {
     }
 
 
-    // ** a BETTER way using authentication
-//    @GetMapping("/professor/courses")
+    // ** a BETTER way using authentication??
+//    @GetMapping("/instructor/courses")
 //    public String showCourseList(Model model, Authentication authentication) {
 //        String username = authentication.getName(); // Retrieve the currently authenticated user's username
 //        User user = userRepo.findByUsername(username); // Retrieve the User object for the currently authenticated user
@@ -131,5 +131,16 @@ public class CourseController {
 
 
     /******************* Student *******************/
+
+    // Show list of courses
+    @GetMapping("/student/{id}") // id = user.id
+    public String showStudentCourseList(@PathVariable("id") Long id, Model model) {
+        List<User> students = userRepo.findByRole(User.Role.STUDENT);
+        model.addAttribute("students", students);
+        User student = userRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+        List<Course> courses = courseRepo.findByInstructor(student);
+        model.addAttribute("courses", courses);
+        return "studentListOfCourses";
+    }
 
 }

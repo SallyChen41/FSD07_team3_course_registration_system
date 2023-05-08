@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>ADMIN | COURSES LIST</title>
+    <title>ADMIN | COURSES</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
           rel="stylesheet"
@@ -17,6 +17,9 @@
 <div class="container">
     <div class="row">
         <h2> ALL COURSES </h2>
+        <div class="col">
+            <div class="dataTables_paginate paging_simple_numbers"></div>
+        </div>
     </div>
     <br/>
     <a th:href="@{/admin/courses/add}" class="btn btn-primary">ADD</a>
@@ -73,11 +76,12 @@
         </div>
     </table>
 </div>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.js"></script>
 <script>
     $(document).ready(function() {
-        $("#courseTable").DataTable({
+        $("#todoTable").DataTable({
             'aoColumnDefs': [{
                 'bSortable': false,
                 'aTargets': [-1]
@@ -90,22 +94,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
 <script>
     $(document).ready(function(){
-        // $(".update").on("click", function(event) {
-        //     // prevent default form submission behavior
-        //     event.preventDefault();
-        //     var userId = $(this).attr("href").split('/')[2]; // extract userId from href attribute
-        //     $.ajax({
-        //         type: "POST",
-        //         url: "/admin/updateuser/" + userId,
-        //         success: function() {
-        //             window.location.href = "/admin/updateuser/" + userId;
-        //         },
-        //         error: function(jqXHR, textStatus, errorThrown) {
-        //             // log any errors to the console
-        //             console.error(errorThrown);
-        //         }
-        //     });
-        // });
         $(".delete").on("click", function(e) {
             e.preventDefault();
             var id = $(this).data("id");
