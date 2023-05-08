@@ -1,3 +1,30 @@
+05/08 Siyi Chen
+1. Done / not done since the last scrum:
+- User login (for other roles)
+- User Listing for admin (CRUD)
+
+2. To do until the next Scrum:
+- User Profile update
+- Merge GitHub directories
+
+3. Need assistance / figure things out
+
+
+05/08 ChihYin Chen
+1. Done / not done since the last scrum:
+- Input all courses data into rds db
+- Users_student/professor: course listing
+
+2. To do until the next Scrum:
+- Users_student: course add/delete
+- Merge GitHub directories
+
+3. Need assistance / figure things out
+
+
+=======================================================
+
+
 05/05 Siyi Chen
 1. Done / not done since the last scrum:
 - User registration
