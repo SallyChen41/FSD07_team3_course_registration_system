@@ -1,4 +1,4 @@
-package com.fsd07.S.repository;
+package com.fsd07team3.CourseRegistration.repository;
 
 import com.fsd07.S.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
