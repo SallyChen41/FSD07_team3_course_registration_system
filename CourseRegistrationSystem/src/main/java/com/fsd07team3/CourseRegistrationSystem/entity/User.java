@@ -1,4 +1,4 @@
-package com.fsd07.S.entity;
+package com.fsd07team3.CourseRegistration.entity;
 
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
