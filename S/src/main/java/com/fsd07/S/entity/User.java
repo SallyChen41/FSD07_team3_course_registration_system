@@ -1,9 +1,6 @@
 package com.fsd07.S.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -20,22 +17,23 @@ import java.time.ZoneId;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Getter
+@Setter
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public enum Role {
-        ADMIN,
-        STUDENT,
-        INSTRUCTOR
-    }
+//    public enum Role {
+//        ADMIN,
+//        STUDENT,
+//        INSTRUCTOR
+//    }
 
-    @Column(nullable = false)
+    @Column(nullable = false,columnDefinition = "VARCHAR(255) default 'STUDENT'")
     @NotNull(message = "Role cannot be null")
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    private String role;
 
     @Column(nullable = false, unique = true, length = 25)
     @NotEmpty(message="Username is required")
@@ -57,7 +55,7 @@ public class User {
     @Column(name = "FirstName", nullable = false, length = 100)
     @NotNull(message = "First name is required")
     @Size(min = 1, max = 100, message = "First name must be between 1 and 100 characters")
-    private String FirstName;
+    private String firstName;
 
     @Column(name = "lastName", nullable = false, length = 100)
     @NotNull(message = "Last name is required")
@@ -77,8 +75,8 @@ public class User {
 //    }
 
     @Column(name = "phoneNum", nullable = false, length = 20)
-    @NotNull (message = "Phone Number is required")
-    @Size(min = 6, max = 20, message = "Phone Number must be between 6 and 20 numbers")
+    @NotNull(message = "Phone Number is required")
+    @Length(min = 10, max = 10, message = "Phone Number must be 10 numbers")
     @Pattern(regexp="[0-9]+")
     private String phoneNum;
 
@@ -100,5 +98,9 @@ public class User {
     @Column(nullable = true, length = 50)
     @Size(max=50)
     private String profession;
+
+    public String getRole() {
+        return role;
+    }
 
 }
