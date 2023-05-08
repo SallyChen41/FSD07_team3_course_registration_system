@@ -1,4 +1,4 @@
-package com.fsd07.S.config;
+package com.fsd07team3.CourseRegistration.config;
 
 import com.fsd07.S.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
