@@ -66,6 +66,7 @@
                 <th>Start Time</th>
                 <th>End Time</th>
                 <th>Student Limit</th>
+                <th>Available</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -82,6 +83,7 @@
                 <td th:text="${course.startTime}"></td>
                 <td th:text="${course.endTime}"></td>
                 <td th:text="${course.studentLimit}"></td>
+                <td th:text="${course.available}"></td>
                 <td>
                     <a th:href="@{/admin/courses/edit(id=${course.id})}" class="edit"><i class="fa fa-edit fa-fw"></i></a>&nbsp;
                     <a th:href="@{/admin/courses/delete/{id}(id=${course.id})}" th:data-id="${course.id}" class="delete" data-target="#confirm-delete-modal"><i class="fa fa-trash fa-fw"></i></a>
