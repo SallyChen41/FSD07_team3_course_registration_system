@@ -54,7 +54,6 @@ public class SemesterController {
         List<Semester> semesters = semesterRepo.findAll();
         model.addAttribute("semesters", semesters);
         model.addAttribute("semesters", semesters);
-//        List<User> instructors = userRepo.findByRole(User.Role.INSTRUCTOR);
         List<User> instructors = userRepo.findByRole("INSTRUCTOR");
         model.addAttribute("instructors", instructors);
         return "admin_semesterAdd_form";
