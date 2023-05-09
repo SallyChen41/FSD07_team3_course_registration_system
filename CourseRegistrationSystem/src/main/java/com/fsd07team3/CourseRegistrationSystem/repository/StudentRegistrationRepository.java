@@ -11,5 +11,6 @@ import java.util.List;
 public interface StudentRegistrationRepository  extends JpaRepository<StudentRegistration, Long> {
 
     List<StudentRegistration> findByStudentId(Long userId);
+    StudentRegistration findByStudentAndCourse(User student, Course course);
 
 }
