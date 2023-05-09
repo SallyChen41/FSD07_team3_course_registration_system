@@ -22,13 +22,14 @@
 <div th:insert="fragments/header :: header"></div>
 
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd; opacity: 0.8;">
-    <a class="navbar-brand" href="/"><img src="/images/course-logo1.png" style="width:30%; margin-left:2%"></a>
+    <a class="navbar-brand" href="/"><img src="/images/course-logo.png" style="width:30%; margin-left:2%"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-            <a class="nav-item nav-link active" href="#">My Profile</a>
+            <a class="nav-item nav-link active" th:href="@{/instructor/profile}">My Profile</a>
+            <a class="nav-item nav-link active" th:href="@{/instructor/courses}">My Courses</a>
         </div>
     </div>
 </nav>
@@ -56,7 +57,7 @@
                 <th>Start Time</th>
                 <th>End Time</th>
                 <th>Student Limit</th>
-                <th>Actions</th>
+                <th>Available</th>
             </tr>
             </thead>
             <tbody>
@@ -71,9 +72,7 @@
                 <td th:text="${course.startTime}"></td>
                 <td th:text="${course.endTime}"></td>
                 <td th:text="${course.studentLimit}"></td>
-                <td>
-<!--                    <a th:href="@{/instructor/courses/{id}(id=${course.id})}" class="edit"><i class="fa fa-search-plus fa-fw"></i></a>&nbsp;-->
-                </td>
+                <td th:text="${course.available}"></td>
             </tr>
             </tbody>
         </table>
