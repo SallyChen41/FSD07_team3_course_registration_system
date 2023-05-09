@@ -41,6 +41,8 @@ label {
 
 #signbutton {
     padding: 10px 16px;
+    margin-left: 4px;
+    margin-right:4px;
     margin-bottom: 10px;
     cursor: pointer;
     border-width: 1px;
@@ -61,4 +63,13 @@ label {
 
 #signbutton:hover {
     background: #6f9c9c;
+}
+
+.navbar-nav li a {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.gradient-custom {
+    background: #8bbabb;
 }
