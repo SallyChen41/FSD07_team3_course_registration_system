@@ -23,15 +23,15 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
             <a class="nav-item nav-link active" th:href="@{/student/profile}">My Profile</a>
+            <a class="nav-item nav-link active" th:href="@{/student/courses}">My Courses</a>
             <a class="nav-item nav-link active" th:href="@{/student/registercourses}">Course Registration</a>
-            <a class="nav-item nav-link active" th:href="@{/student/courses/dropped}">My Dropped Courses</a>
         </div>
     </div>
 </nav>
 
 <div  class="container">
     <div class="row">
-        <h3>Your courses</h3>
+        <h3>Your dropped courses</h3>
     </div>
     <div style="text-align: left;">
         <table class="table table-striped table-bordered" id="courseTable">
@@ -46,6 +46,7 @@
                 <th>End Date</th>
                 <th>Start Time</th>
                 <th>End Time</th>
+                <th>Status</th>
             </tr>
             </thead>
             <tbody>
@@ -59,11 +60,7 @@
                 <td th:text="${course.endDate}"></td>
                 <td th:text="${course.startTime}"></td>
                 <td th:text="${course.endTime}"></td>
-                <td>
-                    <form th:action="@{/student/courses/drop/{id}(id=${course.id})}" method="post">
-                        <button type="submit" class="btn btn-danger">Drop</button>
-                    </form>
-                </td>
+                <td>Dropped</td>
             </tr>
             </tbody>
         </table>
