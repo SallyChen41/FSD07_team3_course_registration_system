@@ -12,14 +12,12 @@ import java.util.Optional;
 
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Long> {
-    Optional<Course> findByTitle(String title);
+    
     List<Course> findByInstructor(User instructor);
-
     List<Course> findBySemesterId(Long semesterId);
-
     @Query("SELECT c FROM Course c WHERE c.id NOT IN " +
             "(SELECT sr.course.id FROM StudentRegistration sr WHERE sr.student.id = :studentId) " +
-            "AND c.studentLimit > 0")
+            "OR (c.id IN (SELECT sr.course.id FROM StudentRegistration sr WHERE sr.student.id = :studentId AND sr.status = 'Dropped'))")
     List<Course> findAvailableCoursesForStudent(@Param("studentId") Long studentId);
 
 
