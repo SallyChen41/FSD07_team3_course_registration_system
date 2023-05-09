@@ -58,7 +58,16 @@ public class Course {
     @NotNull(message="Please provide student limits for this course.")
     private int studentLimit;
 
+    private int available = studentLimit;
+
     @OneToMany(mappedBy = "course")
     private List<StudentRegistration> registrations;
+
+    public void decrementAvailable() {
+        this.available--;
+    }
+    public void incrementAvailable() {
+        this.available++;
+    }
 
 }
