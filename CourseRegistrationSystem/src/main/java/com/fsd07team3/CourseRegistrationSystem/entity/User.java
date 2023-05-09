@@ -25,12 +25,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    public enum Role {
-//        ADMIN,
-//        STUDENT,
-//        INSTRUCTOR
-//    }
-
     @Column(nullable = false,columnDefinition = "VARCHAR(255) default 'STUDENT'")
     @NotNull(message = "Role cannot be null")
     private String role;

@@ -6,7 +6,10 @@ import com.fsd07team3.CourseRegistrationSystem.repository.UserRepository;
 import com.fsd07team3.CourseRegistrationSystem.service.CustomUserDetailsService;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,7 +18,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 
@@ -83,11 +89,6 @@ public class UserController {
         return "user_login";
     }
 
-    @GetMapping("/student/homepage")
-    public String showStudentHomePage() {
-        return "student_homepage";
-    }
-
 
     // Admin listing user
     @GetMapping("/admin/userlist")
@@ -134,5 +135,117 @@ public class UserController {
         userRepository.deleteById(id);
         redirectAttributes.addFlashAttribute("flashMessage", "Delete Success!");
         return "redirect:/admin/userlist";
+    }
+
+    @GetMapping("/student/myprofile")
+    public String showProfile(Model model, Principal principal) {
+        // Retrieve user information based on the currently authenticated user
+        User user = userRepository.findByUsername(principal.getName());
+        // Add user information to the model
+        model.addAttribute("user", user);
+        // Return the Thymeleaf template to be rendered
+        return "student_myprofile";
+    }
+
+    @GetMapping("/student/updateprofile")
+    public String showUpdateProfileForm(Model model, Principal principal) {
+        // Retrieve user information based on the currently authenticated user
+        User user = userRepository.findByUsername(principal.getName());
+
+        // Add user information to the model
+        model.addAttribute("user", user);
+
+        // Return the Thymeleaf template to be rendered
+        return "student_edit_myprofile";
+    }
+
+    @PostMapping("/student/updateprofile")
+    public String updateProfile(@Valid @ModelAttribute("user") User updatedUser,
+                                BindingResult bindingResult,
+                                RedirectAttributes redirectAttributes,
+                                Model model) {
+        System.out.println(updatedUser);
+        // Check for validation errors
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.user", bindingResult);
+            redirectAttributes.addFlashAttribute("user", updatedUser);
+            return "redirect:/student/updateprofile";
+        }
+        // Update the user in the database
+        User currentUser = userRepository.findByUsername(updatedUser.getUsername());
+        System.out.println(currentUser);
+        currentUser.setFirstName(updatedUser.getFirstName());
+        currentUser.setLastName(updatedUser.getLastName());
+        currentUser.setAddress(updatedUser.getAddress());
+        currentUser.setEmail(updatedUser.getEmail());
+        currentUser.setPhoneNum(updatedUser.getPhoneNum());
+        currentUser.setPostalCode(updatedUser.getPostalCode());
+        currentUser.setCity(updatedUser.getCity());
+
+        userRepository.saveAndFlush(updatedUser);
+
+        // Redirect to the user's profile page
+        return "redirect:/student/myprofile";
+    }
+
+    @GetMapping("/instructor/myprofile")
+    public String showInstructorProfile(Model model, Principal principal) {
+        // Retrieve user information based on the currently authenticated user
+        User user = userRepository.findByUsername(principal.getName());
+        // Add user information to the model
+        model.addAttribute("user", user);
+        // Return the Thymeleaf template to be rendered
+        return "instructor_myprofile";
+    }
+
+    @GetMapping("/instructor/updateprofile")
+    public String showUpdateInstructorProfileForm(Model model, Principal principal) {
+        // Retrieve user information based on the currently authenticated user
+        User user = userRepository.findByUsername(principal.getName());
+
+        // Add user information to the model
+        model.addAttribute("user", user);
+
+        // Return the Thymeleaf template to be rendered
+        return "instructor_edit_myprofile";
+    }
+
+    @PostMapping("/instructor/updateprofile")
+    public String updateInstructorProfile(@Valid @ModelAttribute("user") User updatedUser,
+                                          BindingResult bindingResult,
+                                          RedirectAttributes redirectAttributes,
+                                          Model model) {
+        System.out.println(updatedUser);
+        // Check for validation errors
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.user", bindingResult);
+            redirectAttributes.addFlashAttribute("user", updatedUser);
+            return "redirect:/instructor/updateprofile";
+        }
+        // Update the user in the database
+        User currentUser = userRepository.findByUsername(updatedUser.getUsername());
+        System.out.println(currentUser);
+        currentUser.setFirstName(updatedUser.getFirstName());
+        currentUser.setLastName(updatedUser.getLastName());
+        currentUser.setAddress(updatedUser.getAddress());
+        currentUser.setEmail(updatedUser.getEmail());
+        currentUser.setPhoneNum(updatedUser.getPhoneNum());
+        currentUser.setPostalCode(updatedUser.getPostalCode());
+        currentUser.setCity(updatedUser.getCity());
+
+        userRepository.saveAndFlush(updatedUser);
+
+        // Redirect to the user's profile page
+        return "redirect:/instructor/myprofile";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+        // Perform any necessary logout operations
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null){
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        return "redirect:/";
     }
 }

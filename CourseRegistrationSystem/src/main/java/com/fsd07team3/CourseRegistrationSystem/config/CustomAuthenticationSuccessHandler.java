@@ -20,9 +20,9 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         if (roles.contains("ROLE_ADMIN")) {
             response.sendRedirect("/admin/userlist");
         } else if (roles.contains("ROLE_INSTRUCTOR")) {
-            response.sendRedirect("/instructor/courses");
+            response.sendRedirect("/instructor/myprofile");
         } else if (roles.contains("ROLE_STUDENT")) {
-            response.sendRedirect("/student/courses");
+            response.sendRedirect("/student/myprofile");
         } else {
             response.sendRedirect("/");
         }
