@@ -1,5 +1,6 @@
 package com.fsd07team3.CourseRegistrationSystem.repository;
 
+import com.fsd07team3.CourseRegistrationSystem.entity.Course;
 import com.fsd07team3.CourseRegistrationSystem.entity.StudentRegistration;
 import com.fsd07team3.CourseRegistrationSystem.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
