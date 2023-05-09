@@ -19,13 +19,16 @@
 </div>
 <div th:insert="fragments/header :: header"></div>
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd; opacity: 0.8;">
-    <a class="navbar-brand" href="/"><img src="/images/course-logo1.png" style="width:30%; margin-left:2%"></a>
+    <a class="navbar-brand" href="/"><img src="/images/course-logo.png" style="width:30%; margin-left:2%"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-            <a class="nav-item nav-link active" href="#">My Profile</a>
+            <a class="nav-item nav-link active" th:href="@{/student/profile}">My Profile</a>
+            <a class="nav-item nav-link active" th:href="@{/student/courses}">My Courses</a>
+            <a class="nav-item nav-link active" th:href="@{/student/registercourses}">Course Registration</a>
+            <a class="nav-item nav-link active" th:href="@{/student/courses/dropped}">My Dropped Courses</a>
         </div>
     </div>
 </nav>
@@ -48,27 +51,28 @@
                 <th>End Date</th>
                 <th>Start Time</th>
                 <th>End Time</th>
-                <th>Register</th>
+                <th>Available</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="course : ${courses}">
-                <td th:text="${course.semester.quarter} + ' ' + ${course.semester.year}"></td>
-                <td th:text="${course.title}"></td>
-                <td th:text="${course.instructor.firstName + ' ' + course.instructor.lastName}"></td>
-                <td th:text="${#strings.length(course.courseDescription) gt 50} ? ${#strings.substring(course.courseDescription, 0, 50) + '...'} : ${course.courseDescription}"></td>
-                <td th:text="${course.dayOfWeek}"></td>
-                <td th:text="${course.startDate}"></td>
-                <td th:text="${course.endDate}"></td>
-                <td th:text="${course.startTime}"></td>
-                <td th:text="${course.endTime}"></td>
-                <td>
-                    <form th:action="@{/student/registercourses}" method="post">
-                        <input type="hidden" th:name="courseId" th:value="${course.id}"/>
-                        <button type="submit">Select</button>
-                    </form>
-                </td>
-            </tr>
+                <tr th:each="course : ${courses}">
+                    <td th:text="${course.semester.quarter} + ' ' + ${course.semester.year}"></td>
+                    <td th:text="${course.title}"></td>
+                    <td th:text="${course.instructor.firstName + ' ' + course.instructor.lastName}"></td>
+                    <td th:text="${#strings.length(course.courseDescription) gt 50} ? ${#strings.substring(course.courseDescription, 0, 50) + '...'} : ${course.courseDescription}"></td>
+                    <td th:text="${course.dayOfWeek}"></td>
+                    <td th:text="${course.startDate}"></td>
+                    <td th:text="${course.endDate}"></td>
+                    <td th:text="${course.startTime}"></td>
+                    <td th:text="${course.endTime}"></td>
+                    <td th:text="${course.available}"></td>
+                    <td>
+                        <form th:action="@{/student/registercourses}" method="post">
+                            <input type="hidden" th:name="courseId" th:value="${course.id}"/>
+                            <button type="submit" class="btn btn-info">Select</button>
+                        </form>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
