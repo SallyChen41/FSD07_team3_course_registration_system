@@ -19,7 +19,7 @@
     <p th:text="${message}"></p>
 </div>
 
-<div th:insert="fragments/header :: header"></div>
+<!--<div th:insert="fragments/header :: header"></div>-->
 
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd; opacity: 0.8;">
     <a class="navbar-brand" href="/"><img src="/images/course-logo1.png" style=" margin-left:2%;"></a>
@@ -66,8 +66,8 @@
             <tbody>
             <tr th:each="registration: ${studentRegistrations}">
                 <td th:text="${registration.id}"></td>
-                <td th:text="${registration.courseId}"></td>
-                <td th:text="${registration.studentId}"></td>
+                <td th:text="${registration.course.id}"></td>
+                <td th:text="${registration.student.id}"></td>
                 <td th:text="${registration.status}"></td>
                 <td>
 <!--                    <a th:href="@{/admin/courses/delete/{id}(id=${course.id})}" th:data-id="${course.id}" class="delete" data-target="#confirm-delete-modal"><i class="fa fa-trash fa-fw"></i></a>-->

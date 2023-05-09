@@ -9,7 +9,7 @@ import com.example.c.repository.SemesterRepository;
 import com.example.c.repository.StudentRegistrationRepository;
 import com.example.c.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
+//import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,21 +36,21 @@ public class CourseController {
     /******************* Admin *******************/
 
     // SHOW courses list
-    @GetMapping("/admin/courses")
-    public String showCourses(Model model) {
-        List<Course> courses = courseRepo.findAll();
-        // Get available spots for each course
-        for (Course course : courses) {
-            int registeredStudents = course.getRegistrations().size();
-            int availableSpots = course.getStudentLimit() - registeredStudents;
-            if (availableSpots < 0) {
-                availableSpots = 0;
-            }
-            course.setAvailable(availableSpots);
-        }
-        model.addAttribute("courses", courses);
-        return "admin_list_courses";
-    }
+//    @GetMapping("/admin/courses")
+//    public String showCourses(Model model) {
+//        List<Course> courses = courseRepo.findAll();
+//        // Get available spots for each course
+//        for (Course course : courses) {
+//            int registeredStudents = course.getRegistrations().size();
+//            int availableSpots = course.getStudentLimit() - registeredStudents;
+//            if (availableSpots < 0) {
+//                availableSpots = 0;
+//            }
+//            course.setAvailable(availableSpots);
+//        }
+//        model.addAttribute("courses", courses);
+//        return "admin_list_courses";
+//    }
 
     // ADD course
     @GetMapping("/admin/courses/add")
@@ -62,6 +62,7 @@ public class CourseController {
         model.addAttribute("instructors", instructors);
         return "admin_courseAdd_form";
     }
+
     @PostMapping("/admin/courses/add")
     public String addCourse(@ModelAttribute("course") @Valid Course course, BindingResult result,
                             RedirectAttributes redirectAttributes) {
@@ -84,6 +85,7 @@ public class CourseController {
         model.addAttribute("instructors", instructors);
         return "admin_courseEdit_form";
     }
+
     @PostMapping("/admin/courses/edit")
     public String editCourse(@ModelAttribute("course") @Valid Course course,
                              BindingResult result, RedirectAttributes redirectAttributes) {
@@ -122,114 +124,115 @@ public class CourseController {
         model.addAttribute("studentRegistrations", studentRegistrations);
         return "admin_list_registrations";
     }
-
-
-
-    /******************* Instructor *******************/
-
-    // Show list of courses
-    @GetMapping("/instructor/courses")
-    public String showInstructorCourse(Model model, Authentication authentication, RedirectAttributes redirectAttributes) {
-        String username = authentication.getName();
-        User user = userRepo.findByUsername(username);
-        List<Course> courses = courseRepo.findByInstructor(user);
-        model.addAttribute("instructors", user);
-        model.addAttribute("courses", courses);
-        // Get available spots for each course
-        for (Course course : courses) {
-            int registeredStudents = course.getRegistrations().size();
-            int availableSpots = course.getStudentLimit() - registeredStudents;
-            if (availableSpots < 0) {
-                availableSpots = 0;
-            }
-            course.setAvailable(availableSpots);
-        }
-        redirectAttributes.addFlashAttribute("message", "You're logged in! Professor " + user.getFirstName());
-        return "instructor_list_courses";
-    }
-
-
-    /******************* Student *******************/
-
-    // Show list of registered courses
-    @GetMapping("/student/courses")
-    public String showStudentCourse(Model model, Authentication authentication, RedirectAttributes redirectAttributes) {
-        String username = authentication.getName();
-        User user = userRepo.findByUsername(username);
-        List<StudentRegistration> registrations = studentRegistrationRepo.findByStudentId(user.getId());
-        List<Course> courses = new ArrayList<>();
-        for (StudentRegistration registration : registrations) {
-            if (registration.getStatus().equals("Registered")) {
-                courses.add(registration.getCourse());
-            }
-        }
-        model.addAttribute("courses", courses);
-        redirectAttributes.addFlashAttribute("message", "You're logged in! ");
-        return "student_list_courses";
-    }
-
-    // Register courses (ADD)
-    @GetMapping("/student/registercourses")
-    public String showAvailableCourses(Model model, Authentication authentication) {
-        String username = authentication.getName();
-        User user = userRepo.findByUsername(username);
-        List<Course> availableCourses = courseRepo.findAvailableCoursesForStudent(user.getId());
-        // Get available spots for each course
-        for (Course course : availableCourses) {
-            int registeredStudents = course.getRegistrations().size();
-            int availableSpots = course.getStudentLimit() - registeredStudents;
-            if (availableSpots < 0) {
-                availableSpots = 0;
-            }
-            course.setAvailable(availableSpots);
-        }
-        model.addAttribute("courses", availableCourses);
-        List<Semester> semesters = semesterRepo.findAll();
-        model.addAttribute("semesters", semesters);
-        return "student_registerCourses";
-    }
-
-    @PostMapping("/student/registercourses")
-    public String registerCourse(@RequestParam("courseId") Long courseId, Model model, Authentication authentication) {
-        String username = authentication.getName();
-        User student = userRepo.findByUsername(username);
-        Course course = courseRepo.findById(courseId).orElseThrow(() -> new RuntimeException("Invalid course id: " + courseId));
-        StudentRegistration registration = new StudentRegistration();
-        registration.setStudent(student);
-        registration.setCourse(course);
-        registration.setStatus("Registered");
-        studentRegistrationRepo.save(registration);
-        course.decrementAvailable();
-        return "redirect:/student/courses";
-    }
-
-    // DROP the course
-    @GetMapping("/student/courses/drop/{id}")
-    public String dropCourse(@PathVariable("id") Long courseId, Authentication authentication) {
-        String username = authentication.getName();
-        User student = userRepo.findByUsername(username);
-        Course course = courseRepo.findById(courseId).orElseThrow(() -> new RuntimeException("Invalid course id: " + courseId));
-        StudentRegistration registration = studentRegistrationRepo.findByStudentAndCourse(student, course);
-        registration.setStatus("Dropped");
-        studentRegistrationRepo.save(registration);
-        course.setAvailable(course.getAvailable() + 1);
-        courseRepo.save(course);
-        return "redirect:/student/courses/dropped";
-    }
-
-    @GetMapping("/student/courses/dropped")
-    public String showDroppedCourses(Model model, Authentication authentication) {
-        String username = authentication.getName();
-        User user = userRepo.findByUsername(username);
-        List<StudentRegistration> registrations = studentRegistrationRepo.findByStudentId(user.getId());
-        List<Course> droppedCourses = new ArrayList<>();
-        for (StudentRegistration registration : registrations) {
-            if (registration.getStatus().equals("Dropped")) {
-                droppedCourses.add(registration.getCourse());
-            }
-        }
-        model.addAttribute("courses", droppedCourses);
-        return "student_list_droppedCourses";
-    }
-
 }
+
+
+
+//    /******************* Instructor *******************/
+//
+//    // Show list of courses
+//    @GetMapping("/instructor/courses")
+//    public String showInstructorCourse(Model model, Authentication authentication, RedirectAttributes redirectAttributes) {
+//        String username = authentication.getName();
+//        User user = userRepo.findByUsername(username);
+//        List<Course> courses = courseRepo.findByInstructor(user);
+//        model.addAttribute("instructors", user);
+//        model.addAttribute("courses", courses);
+//        // Get available spots for each course
+//        for (Course course : courses) {
+//            int registeredStudents = course.getRegistrations().size();
+//            int availableSpots = course.getStudentLimit() - registeredStudents;
+//            if (availableSpots < 0) {
+//                availableSpots = 0;
+//            }
+//            course.setAvailable(availableSpots);
+//        }
+//        redirectAttributes.addFlashAttribute("message", "You're logged in! Professor " + user.getFirstName());
+//        return "instructor_list_courses";
+//    }
+//
+//
+//    /******************* Student *******************/
+//
+//    // Show list of registered courses
+//    @GetMapping("/student/courses")
+//    public String showStudentCourse(Model model, Authentication authentication, RedirectAttributes redirectAttributes) {
+//        String username = authentication.getName();
+//        User user = userRepo.findByUsername(username);
+//        List<StudentRegistration> registrations = studentRegistrationRepo.findByStudentId(user.getId());
+//        List<Course> courses = new ArrayList<>();
+//        for (StudentRegistration registration : registrations) {
+//            if (registration.getStatus().equals("Registered")) {
+//                courses.add(registration.getCourse());
+//            }
+//        }
+//        model.addAttribute("courses", courses);
+//        redirectAttributes.addFlashAttribute("message", "You're logged in! ");
+//        return "student_list_courses";
+//    }
+//
+//    // Register courses (ADD)
+//    @GetMapping("/student/registercourses")
+//    public String showAvailableCourses(Model model, Authentication authentication) {
+//        String username = authentication.getName();
+//        User user = userRepo.findByUsername(username);
+//        List<Course> availableCourses = courseRepo.findAvailableCoursesForStudent(user.getId());
+//        // Get available spots for each course
+//        for (Course course : availableCourses) {
+//            int registeredStudents = course.getRegistrations().size();
+//            int availableSpots = course.getStudentLimit() - registeredStudents;
+//            if (availableSpots < 0) {
+//                availableSpots = 0;
+//            }
+//            course.setAvailable(availableSpots);
+//        }
+//        model.addAttribute("courses", availableCourses);
+//        List<Semester> semesters = semesterRepo.findAll();
+//        model.addAttribute("semesters", semesters);
+//        return "student_registerCourses";
+//    }
+//
+//    @PostMapping("/student/registercourses")
+//    public String registerCourse(@RequestParam("courseId") Long courseId, Model model, Authentication authentication) {
+//        String username = authentication.getName();
+//        User student = userRepo.findByUsername(username);
+//        Course course = courseRepo.findById(courseId).orElseThrow(() -> new RuntimeException("Invalid course id: " + courseId));
+//        StudentRegistration registration = new StudentRegistration();
+//        registration.setStudent(student);
+//        registration.setCourse(course);
+//        registration.setStatus("Registered");
+//        studentRegistrationRepo.save(registration);
+//        course.decrementAvailable();
+//        return "redirect:/student/courses";
+//    }
+//
+//    // DROP the course
+//    @GetMapping("/student/courses/drop/{id}")
+//    public String dropCourse(@PathVariable("id") Long courseId, Authentication authentication) {
+//        String username = authentication.getName();
+//        User student = userRepo.findByUsername(username);
+//        Course course = courseRepo.findById(courseId).orElseThrow(() -> new RuntimeException("Invalid course id: " + courseId));
+//        StudentRegistration registration = studentRegistrationRepo.findByStudentAndCourse(student, course);
+//        registration.setStatus("Dropped");
+//        studentRegistrationRepo.save(registration);
+//        course.setAvailable(course.getAvailable() + 1);
+//        courseRepo.save(course);
+//        return "redirect:/student/courses/dropped";
+//    }
+//
+//    @GetMapping("/student/courses/dropped")
+//    public String showDroppedCourses(Model model, Authentication authentication) {
+//        String username = authentication.getName();
+//        User user = userRepo.findByUsername(username);
+//        List<StudentRegistration> registrations = studentRegistrationRepo.findByStudentId(user.getId());
+//        List<Course> droppedCourses = new ArrayList<>();
+//        for (StudentRegistration registration : registrations) {
+//            if (registration.getStatus().equals("Dropped")) {
+//                droppedCourses.add(registration.getCourse());
+//            }
+//        }
+//        model.addAttribute("courses", droppedCourses);
+//        return "student_list_droppedCourses";
+//    }
+//
+//}

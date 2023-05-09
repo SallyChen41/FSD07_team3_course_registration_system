@@ -45,7 +45,7 @@
     <div>
         <h1>List of Courses</h1>
     </div>
-    <a th:href="@{/admin/courses/add}" class="btn btn-outline-primary">ADD</a>
+    <a th:href="@{/admin/courses/add}" class="btn btn-outline-primary">Add New Course</a><br><br>
 
     <div style="text-align: left;">
         <table class="table table-striped table-bordered" id="courseTable">
@@ -82,7 +82,7 @@
                 <td th:text="${course.available}"></td>
                 <td>
                     <a th:href="@{/admin/courses/edit(id=${course.id})}" class="edit"><i class="fa fa-edit fa-fw"></i></a>&nbsp;
-                    <a th:href="@{/admin/courses/delete/{id}(id=${course.id})}" th:data-id="${course.id}" class="delete" data-target="#confirm-delete-modal"><i class="fa fa-trash fa-fw"></i></a>
+                    <a th:href="@{/admin/courses/delete(id=${course.id})}" th:data-id="${course.id}" class="delete" data-target="#confirm-delete-modal"><i class="fa fa-trash fa-fw"></i></a>
                 </td>
             </tr>
             </tbody>
@@ -103,18 +103,18 @@
     </div>
 </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $("#courseTable").DataTable({
-            'aoColumnDefs': [{
-                'bSortable': false,
-                'aTargets': [-1]
-            }]
-        });
-    })
-</script>
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
+<!--<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.js"></script>-->
+<!--<script>-->
+<!--    $(document).ready(function() {-->
+<!--        $("#courseTable").DataTable({-->
+<!--            'aoColumnDefs': [{-->
+<!--                'bSortable': false,-->
+<!--                'aTargets': [-1]-->
+<!--            }]-->
+<!--        });-->
+<!--    })-->
+<!--</script>-->
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
@@ -128,11 +128,13 @@
             $("#confirm-delete-button").on("click", function() {
                 $(modalId).modal("hide");
                 $.ajax({
-                    type: "POST",
+                    type: "GET",
                     url: "/admin/courses/delete/" + id,
-                    data: {id: id},
                     success: function () {
-                        location.reload();
+                        $(".alert").removeClass("alert-danger").addClass("alert-success").text("Course deleted.");
+                        setTimeout(function() {
+                            $(".alert").fadeOut("slow");
+                        }, 5000);
                     }
                 });
             });

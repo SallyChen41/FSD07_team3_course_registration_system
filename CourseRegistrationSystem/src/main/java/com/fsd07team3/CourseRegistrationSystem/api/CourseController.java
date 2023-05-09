@@ -103,7 +103,7 @@ public class CourseController {
         return "redirect:/admin/courses";
     }
 
-    @PostMapping("/admin/courses/delete/{id}")
+    @GetMapping("/admin/courses/delete/{id}")
     public String deleteCourse(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         try {
             Course course = courseRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Course not found with ID " + id));
@@ -122,7 +122,6 @@ public class CourseController {
         model.addAttribute("studentRegistrations", studentRegistrations);
         return "admin_list_registrations";
     }
-
 
 
     /******************* Instructor *******************/
@@ -147,6 +146,23 @@ public class CourseController {
         redirectAttributes.addFlashAttribute("message", "You're logged in! Professor " + user.getFirstName());
         return "instructor_list_courses";
     }
+
+    // SHOW all the students that were registered under each course
+    @GetMapping("/instructor/courses/{courseId}/students")
+    public String showCourseStudents(@PathVariable Long courseId, Model model, Authentication authentication) {
+        String username = authentication.getName();
+        User user = userRepo.findByUsername(username);
+        Course course = courseRepo.findById(courseId).orElse(null);
+        if (course == null || !course.getInstructor().equals(user)) {
+            // Return an error page or redirect to a relevant page
+            return "error_page";
+        }
+        List<StudentRegistration> registrations = studentRegistrationRepo.findByCourseId(courseId);
+        model.addAttribute("course", course);
+        model.addAttribute("registrations", registrations);
+        return "instructor_list_studentsInCourse";
+    }
+
 
 
     /******************* Student *******************/
@@ -212,7 +228,7 @@ public class CourseController {
         StudentRegistration registration = studentRegistrationRepo.findByStudentAndCourse(student, course);
         registration.setStatus("Dropped");
         studentRegistrationRepo.save(registration);
-        course.setAvailable(course.getAvailable() + 1);
+        course.incrementAvailable();
         courseRepo.save(course);
         return "redirect:/student/courses/dropped";
     }

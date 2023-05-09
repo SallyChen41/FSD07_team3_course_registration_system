@@ -42,10 +42,11 @@
     </div>
 </nav>
 
-<div  class="container">
-    <div class="row">
-        <h3>Your courses</h3>
+<div  class="container text-center">
+    <div>
+        <h1>Your Courses</h1>
     </div>
+    <br>
     <div style="text-align: left;">
         <table class="table table-striped table-bordered" id="courseTable">
             <thead>
@@ -73,7 +74,7 @@
                 <td th:text="${course.startTime}"></td>
                 <td th:text="${course.endTime}"></td>
                 <td>
-                    <form th:action="@{/student/courses/drop/{id}(id=${course.id})}" method="post">
+                    <form th:action="@{/student/courses/drop/{id}(id=${course.id})}" method="get">
                         <button type="submit" class="btn btn-danger">Drop</button>
                     </form>
                 </td>
@@ -82,6 +83,17 @@
         </table>
     </div>
 </div>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $("#courseTable").DataTable({
+            'aoColumnDefs': [{
+                'bSortable': false,
+                'aTargets': [-1]
+            }]
+        });
+    })
+</script>
 </body>
 </html>

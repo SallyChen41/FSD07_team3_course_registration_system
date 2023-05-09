@@ -70,7 +70,7 @@ public class SemesterController {
     }
 
     // DELETE semester
-    @PostMapping("/admin/semesters/delete/{id}")
+    @GetMapping("/admin/semesters/delete/{id}")
     public String deleteSemester(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         try {
             Semester semester = semesterRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Semester not found with ID " + id));

@@ -13,5 +13,6 @@ public interface StudentRegistrationRepository  extends JpaRepository<StudentReg
 
     List<StudentRegistration> findByStudentId(Long userId);
     StudentRegistration findByStudentAndCourse(User student, Course course);
+    List<StudentRegistration> findByCourseId(Long courseId);
 
 }
