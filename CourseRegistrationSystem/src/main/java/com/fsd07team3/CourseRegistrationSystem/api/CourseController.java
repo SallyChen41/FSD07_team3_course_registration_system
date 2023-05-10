@@ -168,19 +168,39 @@ public class CourseController {
     /******************* Student *******************/
 
     // Show list of registered courses
+//    @GetMapping("/student/courses")
+//    public String showStudentCourse(Model model, Authentication authentication) {
+//        String username = authentication.getName();
+//        User user = userRepo.findByUsername(username);
+//        List<StudentRegistration> registrations = studentRegistrationRepo.findByStudentId(user.getId());
+//        List<Course> courses = new ArrayList<>();
+//        for (StudentRegistration registration : registrations) {
+//            if (registration.getStatus().equals("Registered")) {
+//                courses.add(registration.getCourse());
+//            }
+//        }
+//        model.addAttribute("courses", courses);
+//        return "student_list_courses";
+//    }
     @GetMapping("/student/courses")
-    public String showStudentCourse(Model model, Authentication authentication, RedirectAttributes redirectAttributes) {
+    public String showStudentCourse(Model model, Authentication authentication) {
         String username = authentication.getName();
         User user = userRepo.findByUsername(username);
         List<StudentRegistration> registrations = studentRegistrationRepo.findByStudentId(user.getId());
         List<Course> courses = new ArrayList<>();
         for (StudentRegistration registration : registrations) {
             if (registration.getStatus().equals("Registered")) {
-                courses.add(registration.getCourse());
+                Course course = registration.getCourse();
+                int registeredStudents = course.getRegistrations().size();
+                int availableSpots = course.getStudentLimit() - registeredStudents;
+                if (availableSpots < 0) {
+                    availableSpots = 0;
+                }
+                course.setAvailable(availableSpots);
+                courses.add(course);
             }
         }
         model.addAttribute("courses", courses);
-        redirectAttributes.addFlashAttribute("message", "You're logged in! ");
         return "student_list_courses";
     }
 

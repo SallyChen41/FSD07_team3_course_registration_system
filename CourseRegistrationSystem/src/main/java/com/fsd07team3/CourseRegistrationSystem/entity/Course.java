@@ -58,7 +58,7 @@ public class Course {
     @NotNull(message="Please provide student limits for this course.")
     private int studentLimit;
 
-    private int available = studentLimit;
+    private int available;
 
     @OneToMany(mappedBy = "course")
     private List<StudentRegistration> registrations;
@@ -68,6 +68,20 @@ public class Course {
     }
     public void incrementAvailable() {
         this.available++;
+    }
+
+    public Course(Semester semester, String title, User instructor, String courseDescription, String dayOfWeek, LocalDate startDate, LocalDate endDate, String startTime, String endTime, int studentLimit) {
+        this.semester = semester;
+        this.title = title;
+        this.instructor = instructor;
+        this.courseDescription = courseDescription;
+        this.dayOfWeek = dayOfWeek;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.studentLimit = studentLimit;
+        this.available = studentLimit; // set available to the same as studentLimit
     }
 
 }
