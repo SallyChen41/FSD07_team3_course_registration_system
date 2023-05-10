@@ -1,3 +1,29 @@
+05/10 Siyi Chen
+1. Done / not done since the last scrum:
+- host website with heroku and github
+- css styling
+
+2. To do until the next Scrum:
+- css styling
+
+3. Need assistance / figure things out
+- database connection causing related issues
+
+05/10 ChihYin Chen
+1. Done / not done since the last scrum:
+- admin: show list of registrations
+- instructor: show students under each course
+- delete funstion using ajax needs to change from POST to GET
+
+2. To do until the next Scrum:
+- website functions checking/refine
+
+3. Need assistance / figure things out
+- database connection causing related issues
+
+
+=======================================================
+
 05/09 Siyi Chen
 1. Done / not done since the last scrum:
 - User MyProfile update
