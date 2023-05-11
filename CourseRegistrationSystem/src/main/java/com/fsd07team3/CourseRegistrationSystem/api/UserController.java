@@ -184,7 +184,7 @@ public class UserController {
 
         userRepository.saveAndFlush(updatedUser);
 
-        // Redirect to the user's profile page
+        redirectAttributes.addFlashAttribute("flashMessage", "Update Profile Success!");
         return "redirect:/student/myprofile";
     }
 
@@ -235,7 +235,7 @@ public class UserController {
 
         userRepository.saveAndFlush(updatedUser);
 
-        // Redirect to the user's profile page
+        redirectAttributes.addFlashAttribute("flashMessage", "Update Profile Success!");
         return "redirect:/instructor/myprofile";
     }
 
