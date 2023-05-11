@@ -24,7 +24,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/student/myprofile}" style="color:black">My Profile</a>
+                <a class="nav-link" th:href="@{/student/myprofile}">My Profile</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/student/courses}">My Courses</a>
@@ -33,7 +33,7 @@
                 <a class="nav-link" th:href="@{/student/registercourses}">Course Registration</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" th:href="@{/student/courses/dropped}">My Dropped Courses</a>
+                <a class="nav-link" th:href="@{/student/courses/dropped}" style="color:black">My Dropped Courses</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/logout">Logout</a>
@@ -42,7 +42,7 @@
     </div>
 </nav>
 
-<div  class="container text-center">
+<div  class="container text-center" style="margin-bottom:200px">
     <div>
         <h1>Your Dropped Courses</h1>
     </div>

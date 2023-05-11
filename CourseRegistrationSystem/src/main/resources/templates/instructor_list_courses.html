@@ -24,10 +24,10 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/instructor/myprofile}" style="color:black">My Profile</a>
+                <a class="nav-link" th:href="@{/instructor/myprofile}">My Profile</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" th:href="@{/instructor/courses}">My Courses</a>
+                <a class="nav-link" th:href="@{/instructor/courses}"  style="color:black">My Courses</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/logout">Logout</a>
@@ -36,7 +36,7 @@
     </div>
 </nav>
 
-<div  class="container">
+<div  class="container" style="margin-bottom:200px">
     <div th:if="${message}" class="alert alert-success" style="text-align: center">
         <p th:text="${message}"></p>
     </div>
