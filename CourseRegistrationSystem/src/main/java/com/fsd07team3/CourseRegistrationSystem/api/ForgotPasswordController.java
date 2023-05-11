@@ -96,7 +96,6 @@ public class ForgotPasswordController {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         User user = userRepo.findByEmail(email);
-//        User user = customUserDetailsService.findByResetPasswordToken(resetPasswordToken);
         if (user == null) {
             model.addAttribute("message", "Invalid reset password token.");
             return "user_resetPassword";

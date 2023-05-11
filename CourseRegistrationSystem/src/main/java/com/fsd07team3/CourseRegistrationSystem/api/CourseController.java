@@ -96,24 +96,12 @@ public class CourseController {
     }
 
     // DELETE course
-    @GetMapping("/admin/courses/delete")
-    public String deleteCourseInEdit(@RequestParam("id") Long id, RedirectAttributes redirectAttributes) {
+    @GetMapping("/admin/courses/edit/{id}/delete")
+    public String deleteCourse(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         courseRepo.deleteById(id);
         redirectAttributes.addFlashAttribute("message", "Course deleted.");
         return "redirect:/admin/courses";
     }
-
-    @GetMapping("/admin/courses/delete/{id}")
-    public String deleteCourse(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
-        try {
-            Course course = courseRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Course not found with ID " + id));
-            courseRepo.deleteById(id);
-        } catch (EntityNotFoundException ex) {
-            redirectAttributes.addFlashAttribute("error", ex.getMessage());
-        }
-        return "redirect:/admin/courses";
-    }
-
 
     // SHOW courseRegistration list
     @GetMapping("/admin/studentregistrations")
@@ -168,20 +156,6 @@ public class CourseController {
     /******************* Student *******************/
 
     // Show list of registered courses
-//    @GetMapping("/student/courses")
-//    public String showStudentCourse(Model model, Authentication authentication) {
-//        String username = authentication.getName();
-//        User user = userRepo.findByUsername(username);
-//        List<StudentRegistration> registrations = studentRegistrationRepo.findByStudentId(user.getId());
-//        List<Course> courses = new ArrayList<>();
-//        for (StudentRegistration registration : registrations) {
-//            if (registration.getStatus().equals("Registered")) {
-//                courses.add(registration.getCourse());
-//            }
-//        }
-//        model.addAttribute("courses", courses);
-//        return "student_list_courses";
-//    }
     @GetMapping("/student/courses")
     public String showStudentCourse(Model model, Authentication authentication) {
         String username = authentication.getName();
@@ -226,7 +200,7 @@ public class CourseController {
     }
 
     @PostMapping("/student/registercourses")
-    public String registerCourse(@RequestParam("courseId") Long courseId, Model model, Authentication authentication) {
+    public String registerCourse(@RequestParam("courseId") Long courseId, Authentication authentication) {
         String username = authentication.getName();
         User student = userRepo.findByUsername(username);
         Course course = courseRepo.findById(courseId).orElseThrow(() -> new RuntimeException("Invalid course id: " + courseId));
@@ -267,6 +241,5 @@ public class CourseController {
         model.addAttribute("courses", droppedCourses);
         return "student_list_droppedCourses";
     }
-
 
 }

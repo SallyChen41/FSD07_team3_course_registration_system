@@ -14,6 +14,9 @@
 <div th:if="${message}" class="alert alert-success" style="text-align: center">
     <p th:text="${message}"></p>
 </div>
+<div th:if="${param.message}" class="alert alert-success" style="text-align: center">
+    <p th:text="${param.message}"></p>
+</div>
 <div th:insert="fragments/header :: header"></div>
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd; opacity: 0.8;">
     <a class="navbar-brand" href="/"><img src="/images/course-logo1.png" style=" margin-left:2%;"></a>
@@ -63,7 +66,7 @@
                 <th>End Time</th>
                 <th>Student Limit</th>
                 <th>Available</th>
-                <th>Actions</th>
+                <th>Edit</th>
             </tr>
             </thead>
             <tbody>
@@ -72,7 +75,7 @@
                 <td th:text="${course.semester.quarter} + ' ' + ${course.semester.year}"></td>
                 <td th:text="${course.title}"></td>
                 <td th:text="${course.instructor.firstName} + ' ' + ${course.instructor.lastName}"></td>
-                <td th:text="${#strings.length(course.courseDescription) gt 100} ? ${#strings.substring(course.courseDescription, 0, 100) + '...'} : ${course.courseDescription}"></td>
+                <td th:text="${#strings.length(course.courseDescription) gt 80} ? ${#strings.substring(course.courseDescription, 0, 80) + '...'} : ${course.courseDescription}"></td>
                 <td th:text="${course.dayOfWeek}"></td>
                 <td th:text="${course.startDate}"></td>
                 <td th:text="${course.endDate}"></td>
@@ -82,64 +85,25 @@
                 <td th:text="${course.available}"></td>
                 <td>
                     <a th:href="@{/admin/courses/edit(id=${course.id})}" class="edit"><i class="fa fa-edit fa-fw"></i></a>&nbsp;
-                    <a th:href="@{/admin/courses/delete(id=${course.id})}" th:data-id="${course.id}" class="delete" data-target="#confirm-delete-modal"><i class="fa fa-trash fa-fw"></i></a>
+<!--                    <a th:href="@{/admin/courses/delete(id=${course.id})}" th:data-id="${course.id}" class="delete" data-target="#confirm-delete-modal"><i class="fa fa-trash fa-fw"></i></a>-->
                 </td>
             </tr>
             </tbody>
-            <div class="modal" id="confirm-delete-modal">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            <h5>Delete this course?</h5>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-outline-success" id="confirm-delete-button">Confirm</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </table>
     </div>
 </div>
 
-<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
-<!--<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.js"></script>-->
-<!--<script>-->
-<!--    $(document).ready(function() {-->
-<!--        $("#courseTable").DataTable({-->
-<!--            'aoColumnDefs': [{-->
-<!--                'bSortable': false,-->
-<!--                'aTargets': [-1]-->
-<!--            }]-->
-<!--        });-->
-<!--    })-->
-<!--</script>-->
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.js"></script>
 <script>
-    $(document).ready(function(){
-        $(".delete").on("click", function(e) {
-            e.preventDefault();
-            var id = $(this).data("id");
-            var modalId = $(this).data("target");
-            $(modalId).modal("show");
-            $("#confirm-delete-button").on("click", function() {
-                $(modalId).modal("hide");
-                $.ajax({
-                    type: "GET",
-                    url: "/admin/courses/delete/" + id,
-                    success: function () {
-                        $(".alert").removeClass("alert-danger").addClass("alert-success").text("Course deleted.");
-                        setTimeout(function() {
-                            $(".alert").fadeOut("slow");
-                        }, 5000);
-                    }
-                });
-            });
+    $(document).ready(function() {
+        $("#courseTable").DataTable({
+            'aoColumnDefs': [{
+                'bSortable': false,
+                'aTargets': [-1]
+            }]
         });
-    });
+    })
 </script>
 
 </body>
