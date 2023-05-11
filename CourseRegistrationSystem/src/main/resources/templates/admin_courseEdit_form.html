@@ -13,7 +13,7 @@
 <body>
 <div th:insert="fragments/header :: header"></div>
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd; opacity: 0.8;">
-    <a class="navbar-brand" href="/"><img src="/images/course-logo1.png" style=" margin-left:2%;"></a>
+    <a class="navbar-brand" th:href="@{/admin/semesters}"><img src="/images/course-logo1.png" style=" margin-left:2%;"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -97,10 +97,10 @@
             <p th:if="${#fields.hasErrors('studentLimit')}" th:errors="*{studentLimit}" class="mt-0 mb-2 text-danger"></p>
 
             <br><br>
-            <div class="d-flex justify-content-center">
-                <button class="btn btn-primary text-center mt-3" type="submit">UPDATE</button>&nbsp;&nbsp;
-                <a th:href="@{/admin/courses}" class="btn btn-secondary text-center mt-3">CANCEL</a>&nbsp;&nbsp;
-                <a href="#" class="btn btn-danger text-center mt-3" id="delete" data-id="${id}" data-target="#confirm-delete-modal">DELETE</a>
+            <div class="d-flex justify-content-center" style="margin-bottom:200px">
+                <button class="btn btn-primary text-center mt-3" type="submit" style="margin-right:30px">UPDATE</button>
+                <a th:href="@{/admin/courses}" class="btn btn-secondary text-center mt-3">CANCEL</a>
+                <a href="#" class="btn btn-danger text-center mt-3" id="delete" data-id="${id}" data-target="#confirm-delete-modal" style="margin-left:30px">DELETE</a>
             </div>
             <div class="modal" id="confirm-delete-modal">
                 <div class="modal-dialog">
@@ -117,6 +117,9 @@
             </div>
         </form>
     </div>
+</div>
+<div class="footer">
+    <p class="text-center text-muted">© 2023 FSD07-Chihyin,Chen and Siyi,Chen.</p>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
