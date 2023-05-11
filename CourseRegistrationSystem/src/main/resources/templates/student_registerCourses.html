@@ -16,7 +16,7 @@
 </div>
 <div th:insert="fragments/header :: header"></div>
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd; opacity: 0.8;">
-    <a class="navbar-brand" href="/"><img src="/images/course-logo1.png" style=" margin-left:2%;"></a>
+    <a class="navbar-brand" th:href="@{/student/myprofile}"><img src="/images/course-logo1.png" style=" margin-left:2%;"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -85,6 +85,9 @@
         </table>
     </div>
 
+</div>
+<div class="footer">
+    <p class="text-center text-muted">© 2023 FSD07-Chihyin,Chen and Siyi,Chen.</p>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.11.5/datatables.min.js"></script>

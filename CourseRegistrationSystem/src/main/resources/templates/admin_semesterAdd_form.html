@@ -13,7 +13,7 @@
 <body>
 <div th:insert="fragments/header :: header"></div>
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd; opacity: 0.8;">
-    <a class="navbar-brand" href="/"><img src="/images/course-logo1.png" style=" margin-left:2%;"></a>
+    <a class="navbar-brand" th:href="@{/admin/semesters}"><img src="/images/course-logo1.png" style=" margin-left:2%;"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -37,10 +37,10 @@
         </ul>
     </div>
 </nav>
-<div class="container">
+<div class="container" style="margin-bottom:200px">
 
     <div class="row col-md-8 offset-md-2">
-        <h2 class="text-center my-3">ADD A SEMESTER</h2>
+        <h1 class="text-center my-3">Add a Semester</h1>
         <form th:action="@{/admin/semesters/add}" th:object="${semester}" method="POST" class="w-50 mx-auto">
 
             <label for="year" class="mt-2">Year</label>
@@ -59,13 +59,16 @@
 
             <br><br>
             <div class="d-flex justify-content-center">
-                <button class="btn btn-primary text-center mt-3" type="submit">ADD</button>&nbsp;&nbsp;
-                <a th:href="@{/admin/semesters}" class="btn btn-secondary text-center mt-3">CANCEL</a>
+                <button class="btn btn-outline-secondary" type="submit" style="margin-right:15px">Submit</button>&nbsp;&nbsp;
+                <a th:href="@{/admin/semesters}" class="btn btn-outline-danger" style="margin-left:15px">Cancel</a>
             </div>
 
             <input type="hidden" th:field="*{id}"/>
         </form>
     </div>
+</div>
+<div class="footer">
+    <p class="text-center text-muted">© 2023 FSD07-Chihyin,Chen and Siyi,Chen.</p>
 </div>
 </body>
 </html>

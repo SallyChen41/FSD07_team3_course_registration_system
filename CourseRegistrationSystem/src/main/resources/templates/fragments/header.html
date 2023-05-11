@@ -14,13 +14,13 @@
 <div th:fragment="header" id="header">
     <div sec:authorize="isAnonymous()">
         <div class="d-flex justify-content-end">
-            <p><a th:href="@{/register}">Register</a> or <a th:href="@{/studentlogin}">Login</a> to use our service!</p>
+            <p><a th:href="@{/login}">Login</a> to use our service! New student <a th:href="@{/register}">Register</a> here.</p>
         </div>
     </div>
 
     <div class="d-flex justify-content-end">
         <div sec:authorize="isAuthenticated()">
-            Welcome <span sec:authentication="name"></span>. <a th:href="@{/logout}">Logout</a>
+            Welcome <span sec:authentication="name"></span>. Click <a th:href="@{/logout}">Logout</a> will back to main page.
         </div>
     </div>
 

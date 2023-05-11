@@ -17,7 +17,7 @@
 
 <div th:insert="fragments/header :: header"></div>
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd; opacity: 0.8;">
-    <a class="navbar-brand" href="/"><img src="/images/course-logo1.png" style=" margin-left:2%;"></a>
+    <a class="navbar-brand" th:href="@{/admin/semesters}"><img src="/images/course-logo1.png" style=" margin-left:2%;"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -42,11 +42,11 @@
     </div>
 </nav>
 
-<div  class="container text-center">
+<div  class="container text-center" style="margin-bottom:200px">
     <div>
-        <h1> ALL SEMESTERS </h1>
+        <h1> All Semesters </h1>
     </div>
-    <a th:href="@{/admin/semesters/add}" class="btn btn-outline-primary">Add New Semester</a><br><br>
+    <a th:href="@{/admin/semesters/add}" class="btn btn-outline-primary" id="addbutton">Add New Semester</a><br><br>
     <div style="text-align: left;">
         <table class="table table-striped table-bordered" id="semesterTable">
             <thead>
@@ -63,8 +63,8 @@
                 <td th:text="${semester.year}"></td>
                 <td th:text="${semester.quarter}"></td>
                 <td>
-                    <a th:href="@{/admin/semesters/{id}(id=${semester.id})}" class="edit"><i class="fa fa-search-plus fa-fw"></i></a>&nbsp;
-                    <a th:href="@{/admin/semesters/delete/{id}(id=${semester.id})}" th:data-id="${semester.id}" class="delete" data-target="#confirm-delete-modal"><i class="fa fa-trash fa-fw"></i></a>
+                    <a th:href="@{/admin/semesters/{id}(id=${semester.id})}" class="edit"><i class="fa fa-search-plus fa-fw" style="font-size:20px; color:#1E90FF"></i></a>&nbsp;
+                    <a th:href="@{/admin/semesters/delete/{id}(id=${semester.id})}" th:data-id="${semester.id}" class="delete" data-target="#confirm-delete-modal"><i class="fa fa-trash fa-fw" style="font-size:20px"></i></a>
                 </td>
             </tr>
             </tbody>
@@ -84,7 +84,9 @@
         </table>
     </div>
 </div>
-
+<div class="footer">
+    <p class="text-center text-muted">© 2023 FSD07-Chihyin,Chen and Siyi,Chen.</p>
+</div>
 <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
 <!--<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.js"></script>-->
 <!--<script>-->

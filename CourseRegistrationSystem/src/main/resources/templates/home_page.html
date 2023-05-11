@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body id="body">
+<div th:insert="fragments/header :: header"></div>
 <nav class="navbar navbar-light justify-content-between" style="background-color: #e3f2fd; opacity: 0.8;">
     <a class="navbar-brand" href="/"><img src="/images/course-logo.png" style="width:30%; margin-left:2%"></a>
 </nav>
@@ -22,6 +23,9 @@
         <button class="btn btn-primary text-center mt-3" onclick="window.location.href='/login'" id="signbutton"><i class="fa fa-dashboard"></i> USER LOGIN</button><br>
         <button class="btn btn-primary text-center mt-3" onclick="window.location.href='/register'" id="signbutton"><i class="fa fa-id-card"></i> NEW STUDENT REGISTER</button><br>
     </div>
+</div>
+<div class="footer">
+    <p class="text-center text-muted">© 2023 FSD07-Chihyin,Chen and Siyi,Chen.</p>
 </div>
 </body>
 </html>

@@ -11,9 +11,12 @@
           crossorigin="anonymous">
 </head>
 <body>
+<div th:if="${flashMessage}" class="alert alert-success" role="alert" style="margin-bottom: 0px;text-align:center">
+    <span th:text="${flashMessage}"></span>
+</div>
 <div th:insert="fragments/header :: header"></div>
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd; opacity: 0.8;">
-    <a class="navbar-brand" href="/"><img src="/images/course-logo1.png" style=" margin-left:2%;"></a>
+    <a class="navbar-brand" th:href="@{/student/myprofile}"><img src="/images/course-logo1.png" style=" margin-left:2%;"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -49,7 +52,7 @@
                         <h4 th:text="${user.username}"></h4>
                         <h5 th:text="${user.role}"></h5>
                         <br>
-                        <a th:href="@{/student/updateprofile}"><i class="fa fa-edit mb-5" ></i></a>
+                        <a th:href="@{/student/updateprofile}"><i class="fa fa-edit mb-5" style="font-size:25px; color:#1E90FF"></i></a>
                     </div>
                     <div class="col-md-8">
                         <div class="card-body p-4">
@@ -95,6 +98,9 @@
             </div>
         </div>
     </div>
+</div>
+<div class="footer">
+    <p class="text-center text-muted">© 2023 FSD07-Chihyin,Chen and Siyi,Chen.</p>
 </div>
 </body>
 </html>
