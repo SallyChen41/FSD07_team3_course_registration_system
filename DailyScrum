@@ -1,3 +1,32 @@
+05/11 Siyi Chen
+1. Done / not done since the last scrum:
+- website hosted on Heroku
+- css styling
+- added flashMessage
+
+2. To do until the next Scrum:
+- webtise testing
+- Presentation powerpoint
+- demo preparation
+
+3. Need assistance / figure things out
+
+
+05/11 ChihYin Chen
+1. Done / not done since the last scrum:
+- reset passwrod via gmail api
+
+2. To do until the next Scrum:
+- webtise testing
+- Presentation powerpoint
+- demo preparation
+
+3. Need assistance / figure things out
+
+
+=======================================================
+
+
 05/10 Siyi Chen
 1. Done / not done since the last scrum:
 - host website with heroku and github
@@ -72,6 +101,29 @@
 2. To do until the next Scrum:
 - Users_student: course add/delete
 - Merge GitHub directories
+
+3. Need assistance / figure things out
+
+
+=======================================================
+Weekend
+
+05/07 Siyi Chen
+1. Done / not done since the last scrum:
+- User Listing for admin (CRUD)
+
+2. To do until the next Scrum:
+- User Profile update
+
+3. Need assistance / figure things out
+
+
+05/07 ChihYin Chen
+1. Done / not done since the last scrum:
+- Users_student/professor: course listing
+
+2. To do until the next Scrum:
+- Users_student: course add/delete
 
 3. Need assistance / figure things out
 
