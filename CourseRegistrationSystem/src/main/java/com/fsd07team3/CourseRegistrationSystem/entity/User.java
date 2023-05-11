@@ -93,8 +93,12 @@ public class User {
     @Size(max=50)
     private String profession;
 
+    @Column(name = "resetPasswordToken", unique = true)
+    private String resetPasswordToken;
+
     public String getRole() {
         return role;
     }
+
 
 }
