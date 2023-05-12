@@ -11,7 +11,7 @@
           crossorigin="anonymous">
 </head>
 <body>
-<div th:if="${message}" class="alert alert-success" style="text-align: center">
+<div th:if="${message}" class="alert alert-success" style="margin-bottom: 0px;text-align:center">
     <p th:text="${message}"></p>
 </div>
 <div th:insert="fragments/header :: header"></div>
