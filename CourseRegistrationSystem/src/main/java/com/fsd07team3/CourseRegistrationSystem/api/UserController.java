@@ -35,14 +35,21 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
-    public UserController(CustomUserDetailsService customUserDetailsService){
-        this.customUserDetailsService = customUserDetailsService;
-    }
+//    @Autowired
+//    private S3Service s3Service;
+
+//    public UserController(CustomUserDetailsService customUserDetailsService){
+//        this.customUserDetailsService = customUserDetailsService;
+//        this.s3Service = s3Service;
+//    }
 
     @GetMapping("/")
     public String homePage(){
+//        String logoUrl = getObjectUrl("logo.png");
+//        System.out.println(logoUrl);
         return "home_page";
     }
+
 
     //Student Register
     @GetMapping("/register")
